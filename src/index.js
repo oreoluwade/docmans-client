@@ -1,12 +1,32 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
+import { render } from 'react-dom';
+import { Provider } from 'react-redux';
+import { persistStore } from 'redux-persist';
+import { PersistGate } from 'redux-persist/integration/react';
+import { setCurrentUser } from './actions/authenticationAction';
+import configureStore from './store/configureStore';
 import App from './App';
-import * as serviceWorker from './serviceWorker';
+import setAuthorizationToken from './utils/setAuthorizationToken';
+import './styles/index.scss';
+import { retrieveUserFromToken } from './utils';
+import 'sweetalert2/dist/sweetalert2.min.css';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+const store = configureStore();
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+const persistor = persistStore(store);
+
+if (localStorage.jwtToken) {
+  setAuthorizationToken(localStorage.jwtToken);
+  retrieveUserFromToken(localStorage.jwtToken).then(decodedUser => {
+    store.dispatch(setCurrentUser(decodedUser));
+  });
+}
+
+render(
+  <Provider store={store}>
+    <PersistGate loading={null} persistor={persistor}>
+      <App />
+    </PersistGate>
+  </Provider>,
+  document.getElementById('root')
+);
