@@ -2,7 +2,7 @@ import axios from 'axios';
 import setAuthorizationToken from '../utils/setAuthorizationToken';
 import { SET_CURRENT_USER } from './actionTypes';
 
-const apiUrlPrefix = '/api';
+const { REACT_APP_API_URL } = process.env;
 
 export function setCurrentUser(user) {
     return {
@@ -14,12 +14,15 @@ export function setCurrentUser(user) {
 }
 
 export function userAlreadyExists(identifier) {
-    return () => axios.get(`${apiUrlPrefix}/user/findUser/${identifier}`);
+    return () => axios.get(`${REACT_APP_API_URL}/user/findUser/${identifier}`);
 }
 
 export function registerUser(userData) {
     return async dispatch => {
-        const response = await axios.post(`${apiUrlPrefix}/user`, userData);
+        const response = await axios.post(
+            `${REACT_APP_API_URL}/user`,
+            userData
+        );
         const {
             username,
             firstname,

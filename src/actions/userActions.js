@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { RETRIEVE_USERS_SUCCESS, SET_CURRENT_USER } from './actionTypes';
 
-const apiUrlPrefix = '/api';
+const { REACT_APP_API_URL } = process.env;
 
 export function setCurrentUser(user) {
     return {
@@ -23,7 +23,7 @@ export function retrieveUsersSuccess(users) {
 
 export function retrieveUsers() {
     return async dispatch => {
-        axios.get(`${apiUrlPrefix}/user`).then(response => {
+        axios.get(`${REACT_APP_API_URL}/user`).then(response => {
             dispatch(retrieveUsersSuccess(response.data));
         });
     };
@@ -31,7 +31,7 @@ export function retrieveUsers() {
 
 export function deleteUser(id) {
     return async dispatch => {
-        axios.delete(`${apiUrlPrefix}/user/${id}`).then(() => {
+        axios.delete(`${REACT_APP_API_URL}/user/${id}`).then(() => {
             dispatch(retrieveUsers());
         });
     };
@@ -39,7 +39,7 @@ export function deleteUser(id) {
 
 export function updateUserAdmin(user) {
     return async dispatch => {
-        axios.put(`${apiUrlPrefix}/user/${user.id}`, user).then(() => {
+        axios.put(`${REACT_APP_API_URL}/user/${user.id}`, user).then(() => {
             dispatch(retrieveUsers());
         });
     };
@@ -47,13 +47,13 @@ export function updateUserAdmin(user) {
 
 export const updateUserInfo = (userId, updatePayload) => async dispatch =>
     axios
-        .put(`${apiUrlPrefix}/user/${userId}`, updatePayload)
+        .put(`${REACT_APP_API_URL}/user/${userId}`, updatePayload)
         .then(response => {
             dispatch(setCurrentUser(response.data));
         });
 
 export const getUserInfo = userId => async dispatch => {
-    axios.get(`${apiUrlPrefix}/user/${userId}`).then(response => {
+    axios.get(`${REACT_APP_API_URL}/user/${userId}`).then(response => {
         dispatch(setCurrentUser(response.data));
     });
 };

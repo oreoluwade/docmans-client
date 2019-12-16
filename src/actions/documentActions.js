@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { LOAD_ALL_DOCUMENTS, LOAD_USER_DOCUMENTS } from './actionTypes';
 
-const apiUrlPrefix = '/api';
+const { REACT_APP_API_URL } = process.env;
 
 export function retrieveAllDocuments(documents) {
     return {
@@ -23,7 +23,7 @@ export function retrieveUserDocuments(documents) {
 
 export function loadUserDocuments(id) {
     return async dispatch => {
-        axios.get(`${apiUrlPrefix}/user/${id}/document`).then(response => {
+        axios.get(`${REACT_APP_API_URL}/user/${id}/document`).then(response => {
             dispatch(retrieveUserDocuments(response.data));
         });
     };
@@ -31,7 +31,7 @@ export function loadUserDocuments(id) {
 
 export function loadAllDocuments() {
     return async dispatch => {
-        axios.get(`${apiUrlPrefix}/document`).then(response => {
+        axios.get(`${REACT_APP_API_URL}/document`).then(response => {
             dispatch(retrieveAllDocuments(response.data));
         });
     };
@@ -39,7 +39,7 @@ export function loadAllDocuments() {
 
 export const saveDocument = (document, userId) => {
     return async dispatch => {
-        axios.post(`${apiUrlPrefix}/document`, document).then(() => {
+        axios.post(`${REACT_APP_API_URL}/document`, document).then(() => {
             dispatch(loadUserDocuments(userId));
             dispatch(loadAllDocuments());
         });
@@ -49,7 +49,7 @@ export const saveDocument = (document, userId) => {
 export const updateDocument = (document, userId) => {
     return async dispatch => {
         axios
-            .put(`${apiUrlPrefix}/document/${document.id}`, document)
+            .put(`${REACT_APP_API_URL}/document/${document.id}`, document)
             .then(() => {
                 dispatch(loadUserDocuments(userId));
             });
@@ -58,7 +58,7 @@ export const updateDocument = (document, userId) => {
 
 export function deleteDocument(id, userId) {
     return async dispatch => {
-        axios.delete(`${apiUrlPrefix}/document/${id}`).then(() => {
+        axios.delete(`${REACT_APP_API_URL}/document/${id}`).then(() => {
             dispatch(loadUserDocuments(userId));
         });
     };
@@ -67,7 +67,7 @@ export function deleteDocument(id, userId) {
 export function searchForAllDocuments(query) {
     return async dispatch => {
         axios
-            .get(`${apiUrlPrefix}/documents/search?query=${query}`)
+            .get(`${REACT_APP_API_URL}/search?query=${query}`)
             .then(response => {
                 dispatch(retrieveAllDocuments(response.data));
             });
