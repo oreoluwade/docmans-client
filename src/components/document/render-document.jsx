@@ -12,6 +12,7 @@ import { connect } from 'react-redux';
 import './index.scss';
 import TextFieldGroup from '../base/text-field-group';
 import { saveDocument, updateDocument } from '../../actions';
+import { FullPageLoader } from '../loaders';
 
 const useStyles = makeStyles({
     root: {
@@ -39,6 +40,7 @@ const RenderDocument = ({
 }) => {
     const classes = useStyles();
 
+    const [submitting, setSubmitting] = useState(false);
     const [state, setState] = useState({
         errors: {},
         document: document || { access: 'public' },
@@ -82,7 +84,9 @@ const RenderDocument = ({
     const createDocument = async e => {
         e.preventDefault();
         try {
+            setSubmitting(true);
             await saveDocument(state.document, user.id);
+            setSubmitting(false);
             Swal.fire({
                 icon: 'success',
                 title: 'Document created',
@@ -91,6 +95,7 @@ const RenderDocument = ({
             });
             history.push('/dashboard');
         } catch (error) {
+            setSubmitting(false);
             console.log('Error', error);
         }
     };
@@ -98,7 +103,9 @@ const RenderDocument = ({
     const editDocument = async e => {
         e.preventDefault();
         try {
+            setSubmitting(true);
             await updateDocument(state.document, user.id);
+            setSubmitting(false);
             Swal.fire({
                 icon: 'success',
                 title: 'Document created',
@@ -107,6 +114,7 @@ const RenderDocument = ({
             });
             history.push('/dashboard');
         } catch (error) {
+            setSubmitting(false);
             console.log('Update Error', error);
         }
     };
@@ -119,58 +127,62 @@ const RenderDocument = ({
 
     return (
         <div className={classes.root}>
-            <form className="document-form">
-                <TextFieldGroup
-                    icon={<TitleIcon />}
-                    field="title"
-                    label="Title"
-                    value={title}
-                    onChange={handleInputChange}
-                    type="text"
-                    placeholder="Document Title"
-                    inputClass="document-form-input"
-                    disabled={!editable}
-                />
-
-                <FroalaEditor
-                    tag="textarea"
-                    model={content}
-                    onModelChange={handleModelChange}
-                    contenteditable={editable}
-                />
-
-                <div className="document-form__select__wrapper">
-                    <select
-                        name="access"
-                        id="accessDropdown"
-                        value={access}
-                        className="document-form__select"
+            {submitting ? (
+                <FullPageLoader />
+            ) : (
+                <form className="document-form">
+                    <TextFieldGroup
+                        icon={<TitleIcon />}
+                        field="title"
+                        label="Title"
+                        value={title}
                         onChange={handleInputChange}
+                        type="text"
+                        placeholder="Document Title"
+                        inputClass="document-form-input"
                         disabled={!editable}
-                    >
-                        <option value="" disabled>
-                            Document Visibility Access
-                        </option>
-                        <option value="public">PUBLIC</option>
-                        <option value="private">PRIVATE</option>
-                        <option value="role">FOR USERS WITH MY ROLE</option>
-                    </select>
-                </div>
+                    />
 
-                {editable ? (
-                    <button
-                        type="button"
-                        className="btn-default document-form__button"
-                        onClick={documentId ? editDocument : createDocument}
-                    >
-                        {documentId ? 'UPDATE' : 'SAVE DOCUMENT'}
-                    </button>
-                ) : (
-                    <p className={classes.readOnly}>
-                        This Document is Read Only
-                    </p>
-                )}
-            </form>
+                    <FroalaEditor
+                        tag="textarea"
+                        model={content}
+                        onModelChange={handleModelChange}
+                        contenteditable={editable}
+                    />
+
+                    <div className="document-form__select__wrapper">
+                        <select
+                            name="access"
+                            id="accessDropdown"
+                            value={access}
+                            className="document-form__select"
+                            onChange={handleInputChange}
+                            disabled={!editable}
+                        >
+                            <option value="" disabled>
+                                Document Visibility Access
+                            </option>
+                            <option value="public">PUBLIC</option>
+                            <option value="private">PRIVATE</option>
+                            <option value="role">FOR USERS WITH MY ROLE</option>
+                        </select>
+                    </div>
+
+                    {editable ? (
+                        <button
+                            type="button"
+                            className="btn-default document-form__button"
+                            onClick={documentId ? editDocument : createDocument}
+                        >
+                            {documentId ? 'UPDATE' : 'SAVE DOCUMENT'}
+                        </button>
+                    ) : (
+                        <p className={classes.readOnly}>
+                            This Document is Read Only
+                        </p>
+                    )}
+                </form>
+            )}
         </div>
     );
 };
