@@ -13,10 +13,11 @@ const TextFieldGroup = ({
   placeholder,
   icon,
   inputClass,
+  fieldClass,
   disabled
 }) => {
   return (
-    <div className="textfield-root">
+    <div className={fieldClass}>
       <div className="textfield-icon">{icon}</div>
       <input
         value={value}
