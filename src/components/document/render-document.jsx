@@ -9,12 +9,11 @@ import 'font-awesome/css/font-awesome.css';
 import FroalaEditor from 'react-froala-wysiwyg';
 import TitleIcon from '@material-ui/icons/Title';
 import { connect } from 'react-redux';
-import './index.scss';
 import TextFieldGroup from '../base/text-field-group';
 import { saveDocument, updateDocument } from '../../actions';
 import { FullPageLoader } from '../loaders';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
     root: {
         marginTop: '2rem',
         padding: '2rem',
@@ -27,8 +26,51 @@ const useStyles = makeStyles({
         fontStyle: 'italic',
         fontSize: '0.8rem',
         color: 'rgb(49, 150, 175)'
+    },
+    inputBox: {
+        outline: 'none',
+        borderRadius: theme.spacing(2),
+        border: 'none',
+        fontSize: '1rem',
+        paddingLeft: '0.8rem',
+        height: '2.5rem',
+        width: '25rem'
+    },
+    textFieldClass: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '100%',
+        overflow: 'hidden',
+        marginBottom: theme.spacing(2)
+    },
+    selectRoot: {
+        width: '15rem',
+        height: '2rem',
+        backgroundColor: 'white',
+        borderRadius: '0.8rem',
+        overflow: 'hidden',
+        marginBottom: theme.spacing(4),
+        marginTop: theme.spacing(2),
+        [theme.breakpoints.down('sm')]: {
+            width: '100%'
+        }
+    },
+    select: {
+        width: '15rem',
+        border: 'none',
+        height: '2rem',
+        outline: 'none'
+    },
+    submit: {
+        width: '15rem',
+        margin: '0 auto'
+    },
+    form: {
+        display: 'flex',
+        flexDirection: 'column'
     }
-});
+}));
 
 const RenderDocument = ({
     match,
@@ -130,7 +172,7 @@ const RenderDocument = ({
             {submitting ? (
                 <FullPageLoader />
             ) : (
-                <form className="document-form">
+                <form className={classes.form}>
                     <TextFieldGroup
                         icon={<TitleIcon />}
                         field="title"
@@ -139,7 +181,8 @@ const RenderDocument = ({
                         onChange={handleInputChange}
                         type="text"
                         placeholder="Document Title"
-                        inputClass="document-form-input"
+                        inputClass={classes.inputBox}
+                        fieldClass={classes.textFieldClass}
                         disabled={!editable}
                     />
 
@@ -150,12 +193,12 @@ const RenderDocument = ({
                         contenteditable={editable}
                     />
 
-                    <div className="document-form__select__wrapper">
+                    <div className={classes.selectRoot}>
                         <select
                             name="access"
                             id="accessDropdown"
                             value={access}
-                            className="document-form__select"
+                            className={classes.select}
                             onChange={handleInputChange}
                             disabled={!editable}
                         >
@@ -171,7 +214,7 @@ const RenderDocument = ({
                     {editable ? (
                         <button
                             type="button"
-                            className="btn-default document-form__button"
+                            className={`btn-default ${classes.submit}`}
                             onClick={documentId ? editDocument : createDocument}
                         >
                             {documentId ? 'UPDATE' : 'SAVE DOCUMENT'}

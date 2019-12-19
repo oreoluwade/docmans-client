@@ -4,14 +4,19 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
     root: {
-        marginBottom: theme.spacing(1),
-        marginTop: theme.spacing(1),
-        width: '25rem'
+        marginBottom: theme.spacing(2),
+        marginTop: theme.spacing(2),
+        width: '25rem',
+        overflow: 'hidden',
+        paddingRight: theme.spacing(2),
+        [theme.breakpoints.down('sm')]: {
+            width: '100%'
+        }
     },
 
     input: {
         fontSize: '1.5rem',
-        width: '80%',
+        width: '100%',
         padding: '0.3rem',
         border: '2px solid rgb(49, 150, 175)',
         borderRadius: '0.8rem',
