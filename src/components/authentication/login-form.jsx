@@ -13,11 +13,16 @@ import { FullPageLoader } from '../loaders';
 const useStyles = makeStyles(theme => ({
     root: {
         display: 'grid',
-        gridTemplateRows: 'repeat(6, 2.5rem)',
-        gridTemplateColumns: 'repeat(13, 20px)',
-        gridGap: '20px',
-        width: '100%',
-        overflow: 'hidden'
+        gridTemplateRows: 'repeat(3, minmax(2.5rem, 1fr))',
+        gridTemplateColumns: 'repeat(3, minmax(100px, 1fr))',
+        gridGap: '25px',
+        overflow: 'hidden',
+        paddingLeft: theme.spacing(2),
+        paddingRight: theme.spacing(2),
+        marginTop: theme.spacing(8),
+        [theme.breakpoints.down('sm')]: {
+            marginTop: theme.spacing(15)
+        }
     },
     inputBox: {
         outline: 'none',
@@ -29,21 +34,21 @@ const useStyles = makeStyles(theme => ({
         width: '100%'
     },
     identifier: {
-        gridColumn: '2 / 14',
-        gridRow: '3 / 4'
+        gridColumn: 'span 3'
     },
     password: {
-        gridColumn: '2 / 14',
-        gridRow: '4 / 5'
+        gridColumn: 'span 3'
     },
     textFieldClass: {
         display: 'flex',
         alignItems: 'center',
-        width: '100%'
+
+        width: '100%',
+        overflow: 'hidden'
     },
     submit: {
-        gridRow: '5 / 6',
-        gridColumn: '6 / 10'
+        gridColumn: '2 / 3',
+        width: '100%'
     }
 }));
 

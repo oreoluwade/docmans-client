@@ -1,30 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import './index.scss';
+import { makeStyles } from '@material-ui/core/styles';
 import TabsPanel from './tabs-panel';
 
-class Dashboard extends React.Component {
-    state = {
-        isPrivate: false
-    };
-
-    render() {
-        const {
-            props: { publicDocuments, roleDocuments, privateDocuments }
-        } = this;
-
-        return (
-            <div className="dashboard-root">
-                <TabsPanel
-                    privateDocuments={privateDocuments}
-                    publicDocuments={publicDocuments}
-                    roleDocuments={roleDocuments}
-                />
-            </div>
-        );
+const useStyles = makeStyles(() => ({
+    root: {
+        overflow: 'scroll',
+        height: '80%'
     }
-}
+}));
+
+const Dashboard = ({ privateDocuments, publicDocuments, roleDocuments }) => {
+    const classes = useStyles();
+
+    return (
+        <div className={classes.root}>
+            <TabsPanel
+                privateDocuments={privateDocuments}
+                publicDocuments={publicDocuments}
+                roleDocuments={roleDocuments}
+            />
+        </div>
+    );
+};
 
 Dashboard.propTypes = {
     auth: PropTypes.object,

@@ -1,4 +1,4 @@
-import React, { Fragment, useReducer } from 'react';
+import React, { useReducer } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -15,12 +15,26 @@ import { FullPageLoader } from '../loaders';
 import { userAlreadyExists, registerUser } from '../../actions';
 
 const useStyles = makeStyles(theme => ({
+    wrapper: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        maxWidth: '580px',
+        marginTop: theme.spacing(4)
+    },
     root: {
         display: 'grid',
-        gridTemplateRows: 'repeat(10, 2.5rem)',
-        gridTemplateColumns: 'repeat(13, 20px)',
+        gridTemplateRows: 'repeat(4, minmax(2.5rem, 1fr))',
+        [theme.breakpoints.down('sm')]: {
+            gridTemplateRows: 'repeat(6, minmax(2.5rem, 1fr))'
+        },
+        gridTemplateColumns: 'repeat(2 minmax(250px, 1fr))',
         gridGap: '20px',
-        width: '100%'
+        width: '95%',
+        paddingLeft: theme.spacing(2),
+        paddingRight: theme.spacing(2),
+        overflow: 'hidden',
+        marginBottom: theme.spacing(3)
     },
     inputBox: {
         outline: 'none',
@@ -32,37 +46,46 @@ const useStyles = makeStyles(theme => ({
         width: '100%'
     },
     username: {
-        gridColumn: '2 / 14',
-        gridRow: '2 / 3'
+        gridColumn: 'span 2'
     },
     firstname: {
-        gridColumn: '2 / 14',
-        gridRow: '3 / 4'
+        gridColumn: 'span 1',
+        [theme.breakpoints.down('sm')]: {
+            gridColumn: 'span 2'
+        }
     },
     lastname: {
-        gridColumn: '2 / 14',
-        gridRow: '4 / 5'
+        gridColumn: 'span 1',
+        [theme.breakpoints.down('sm')]: {
+            gridColumn: 'span 2'
+        }
     },
     email: {
-        gridColumn: '2 / 14',
-        gridRow: '5 / 6'
+        gridColumn: 'span 2'
     },
     password: {
-        gridColumn: '2 / 14',
-        gridRow: '6 / 7'
+        gridColumn: 'span 1',
+        [theme.breakpoints.down('sm')]: {
+            gridColumn: 'span 2'
+        }
     },
     confirmPassword: {
-        gridColumn: '2 / 14',
-        gridRow: '7 / 8'
+        gridColumn: 'span 1',
+        [theme.breakpoints.down('sm')]: {
+            gridColumn: 'span 2'
+        }
     },
     textFieldClass: {
         display: 'flex',
         alignItems: 'center',
-        width: '100%'
+
+        width: '100%',
+        overflow: 'hidden'
     },
     submit: {
-        gridRow: '8 / 9',
-        gridColumn: '6 / 10'
+        [theme.breakpoints.down('sm')]: {
+            // gridRow: '7 / 8'
+        }
     }
 }));
 
@@ -200,96 +223,94 @@ const SignupForm = ({ userAlreadyExists, history, registerUser }) => {
         confirmPassword
     } = state;
 
-    return (
-        <form className={classes.root}>
-            {submitting ? (
-                <FullPageLoader />
-            ) : (
-                <Fragment>
-                    <TextFieldGroup
-                        icon={<FaceIcon />}
-                        error={errors.username}
-                        onChange={handleInputChange}
-                        onBlur={checkUserExists}
-                        value={username}
-                        field="username"
-                        name="username"
-                        type="text"
-                        inputClass={classes.inputBox}
-                        fieldClass={`${classes.username} ${classes.textFieldClass} `}
-                        placeholder="Username"
-                    />
-                    <TextFieldGroup
-                        icon={<PermIdentityIcon />}
-                        error={errors.firstname}
-                        onChange={handleInputChange}
-                        value={firstname}
-                        field="firstname"
-                        name="firstname"
-                        type="text"
-                        inputClass={classes.inputBox}
-                        fieldClass={`${classes.firstname} ${classes.textFieldClass} `}
-                        placeholder="First Name"
-                    />
-                    <TextFieldGroup
-                        icon={<AccountCircleIcon />}
-                        error={errors.lastname}
-                        onChange={handleInputChange}
-                        value={lastname}
-                        field="lastname"
-                        name="lastname"
-                        type="text"
-                        inputClass={classes.inputBox}
-                        fieldClass={`${classes.lastname} ${classes.textFieldClass} `}
-                        placeholder="Last Name"
-                    />
-                    <TextFieldGroup
-                        icon={<EmailIcon />}
-                        error={errors.email}
-                        onChange={handleInputChange}
-                        checkUserExists={checkUserExists}
-                        value={email}
-                        field="email"
-                        type="email"
-                        inputClass={classes.inputBox}
-                        fieldClass={`${classes.email} ${classes.textFieldClass} `}
-                        placeholder="Email"
-                    />
-                    <TextFieldGroup
-                        icon={<LockOutlinedIcon />}
-                        error={errors.password}
-                        onChange={handleInputChange}
-                        value={password}
-                        field="password"
-                        name="password"
-                        type="password"
-                        inputClass={classes.inputBox}
-                        fieldClass={`${classes.password} ${classes.textFieldClass} `}
-                        placeholder="Password"
-                    />
-                    <TextFieldGroup
-                        icon={<LockSharpIcon />}
-                        error={errors.confirmPassword}
-                        onChange={handleInputChange}
-                        value={confirmPassword}
-                        field="confirmPassword"
-                        name="confirmPassword"
-                        type="password"
-                        inputClass={classes.inputBox}
-                        fieldClass={`${classes.confirmPassword} ${classes.textFieldClass} `}
-                        placeholder="Confirm Password"
-                    />
-                    <button
-                        disabled={submitting || invalid || atLeastOneEmptyField}
-                        className={`${classes.submit} btn btn-default`}
-                        type="button"
-                        onClick={handleSubmit}
-                    >
-                        REGISTER
-                    </button>
-                </Fragment>
-            )}
-        </form>
+    return submitting ? (
+        <FullPageLoader />
+    ) : (
+        <div className={classes.wrapper}>
+            <form className={classes.root}>
+                <TextFieldGroup
+                    icon={<FaceIcon />}
+                    error={errors.username}
+                    onChange={handleInputChange}
+                    onBlur={checkUserExists}
+                    value={username}
+                    field="username"
+                    name="username"
+                    type="text"
+                    inputClass={classes.inputBox}
+                    fieldClass={`${classes.username} ${classes.textFieldClass} `}
+                    placeholder="Username"
+                />
+                <TextFieldGroup
+                    icon={<PermIdentityIcon />}
+                    error={errors.firstname}
+                    onChange={handleInputChange}
+                    value={firstname}
+                    field="firstname"
+                    name="firstname"
+                    type="text"
+                    inputClass={classes.inputBox}
+                    fieldClass={`${classes.firstname} ${classes.textFieldClass} `}
+                    placeholder="First Name"
+                />
+                <TextFieldGroup
+                    icon={<AccountCircleIcon />}
+                    error={errors.lastname}
+                    onChange={handleInputChange}
+                    value={lastname}
+                    field="lastname"
+                    name="lastname"
+                    type="text"
+                    inputClass={classes.inputBox}
+                    fieldClass={`${classes.lastname} ${classes.textFieldClass} `}
+                    placeholder="Last Name"
+                />
+                <TextFieldGroup
+                    icon={<EmailIcon />}
+                    error={errors.email}
+                    onChange={handleInputChange}
+                    checkUserExists={checkUserExists}
+                    value={email}
+                    field="email"
+                    type="email"
+                    inputClass={classes.inputBox}
+                    fieldClass={`${classes.email} ${classes.textFieldClass} `}
+                    placeholder="Email"
+                />
+                <TextFieldGroup
+                    icon={<LockOutlinedIcon />}
+                    error={errors.password}
+                    onChange={handleInputChange}
+                    value={password}
+                    field="password"
+                    name="password"
+                    type="password"
+                    inputClass={classes.inputBox}
+                    fieldClass={`${classes.password} ${classes.textFieldClass} `}
+                    placeholder="Password"
+                />
+                <TextFieldGroup
+                    icon={<LockSharpIcon />}
+                    error={errors.confirmPassword}
+                    onChange={handleInputChange}
+                    value={confirmPassword}
+                    field="confirmPassword"
+                    name="confirmPassword"
+                    type="password"
+                    inputClass={classes.inputBox}
+                    fieldClass={`${classes.confirmPassword} ${classes.textFieldClass} `}
+                    placeholder="Confirm Password"
+                />
+            </form>
+            <button
+                disabled={submitting || invalid || atLeastOneEmptyField}
+                className={`${classes.submit} btn btn-default`}
+                type="button"
+                onClick={handleSubmit}
+            >
+                REGISTER
+            </button>
+        </div>
     );
 };
 

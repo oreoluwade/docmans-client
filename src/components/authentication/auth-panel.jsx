@@ -6,30 +6,30 @@ import SignupForm from './signup-form';
 
 const useStyles = makeStyles(theme => ({
     root: {
-        display: 'grid',
-        gridTemplateColumns: 'repeat(8, 1fr)',
-        gridTemplateRows: '50px',
-        height: '57vh',
+        display: 'flex',
+        flexDirection: 'column',
+        maxHeight: '57vh',
+        minHeight: '40vh',
+        [theme.breakpoints.down('sm')]: {
+            minHeight: '57vh'
+        },
         backgroundColor: '#CDCDCD',
-        boxShadow: 'rgb(0, 0, 0, 0.7)'
+        width: '100%',
+        overflow: 'hidden'
     },
     loginTabButton: {
-        gridColumn: '2 / 4',
-        gridRow: '1 / 1'
+        gridColumn: '1 / 2'
     },
     signupTabButton: {
-        gridColumn: '4 / -1',
-        gridRow: '1 / 2'
+        gridColumn: '2 / 3'
     },
     form: {
         display: 'grid',
-        gridRow: '2 / -1',
-        gridColumn: '1 / -1'
+        width: '100%'
     },
     tabSelector: {
         display: 'grid',
-        gridTemplateColumns: 'repeat(6, 1fr)',
-        width: '30rem'
+        gridTemplateColumns: 'repeat(autofill, minmax(150px, 1fr))'
     }
 }));
 

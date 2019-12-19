@@ -4,14 +4,21 @@ import AuthPanel from './auth-panel';
 
 const useStyles = makeStyles(theme => ({
     root: {
-        display: 'grid',
-        gridTemplateColumns: '1fr 1fr 1fr',
-        gridTemplateRows: 'repeat(8, 1fr)'
+        minWidth: '300px',
+        overflow: 'hidden',
+        boxSizing: 'border-box',
+        paddingTop: theme.spacing(5),
+        [theme.breakpoints.up('sm')]: {
+            display: 'grid',
+            gridTemplateColumns: 'repeat(3, 1fr)',
+            width: '100%',
+            paddingTop: '10rem'
+        }
     },
-    panelWrapper: {
-        gridColumn: '3 / -1',
-        gridRow: '2 / 8',
-        padding: 0
+    authWrapper: {
+        [theme.breakpoints.up('sm')]: {
+            gridColumn: '3 / 4'
+        }
     }
 }));
 
@@ -20,7 +27,7 @@ const Auth = () => {
 
     return (
         <div className={classes.root}>
-            <div className={classes.panelWrapper}>
+            <div className={classes.authWrapper}>
                 <AuthPanel />
             </div>
         </div>
