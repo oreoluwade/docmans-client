@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -48,7 +48,7 @@ const useStyles = makeStyles(theme => ({
 
 const TabsPanel = ({ privateDocuments, publicDocuments, roleDocuments }) => {
     const classes = useStyles();
-    const [value, setValue] = React.useState(0);
+    const [value, setValue] = useState(0);
 
     const handleTabChange = (event, newValue) => {
         setValue(newValue);
@@ -61,10 +61,11 @@ const TabsPanel = ({ privateDocuments, publicDocuments, roleDocuments }) => {
                     value={value}
                     onChange={handleTabChange}
                     aria-label="documents tab"
+                    centered
                 >
-                    <Tab label="Public Documents" {...a11yProps(1)} />
-                    <Tab label="Private Documents" {...a11yProps(0)} />
-                    <Tab label="Role Documents" {...a11yProps(2)} />
+                    <Tab label="Public" {...a11yProps(1)} />
+                    <Tab label="Private" {...a11yProps(0)} />
+                    <Tab label="Role" {...a11yProps(2)} />
                 </Tabs>
             </AppBar>
             <TabPanel value={value} index={0}>

@@ -21,7 +21,10 @@ const GreenCheckbox = withStyles({
 const useStyles = makeStyles(theme => ({
     selectRoot: {
         marginBottom: theme.spacing(1),
-        marginTop: theme.spacing(1)
+        marginTop: theme.spacing(1),
+        [theme.breakpoints.down('sm')]: {
+            display: 'flex'
+        }
     }
 }));
 
