@@ -8,48 +8,49 @@ import RoleCard from './role-card';
 import CreateRole from './create-role';
 
 const useStyles = makeStyles({
-  root: {
-    overflow: 'scroll',
-    height: '80%',
-    backgroundColor: 'whitesmoke',
-    paddingRight: '2rem',
-    paddingLeft: '2rem',
-    marginTop: '2rem'
-  }
+    root: {
+        overflow: 'scroll',
+        height: '80%',
+        backgroundColor: 'whitesmoke',
+        paddingRight: '2rem',
+        paddingLeft: '2rem',
+        marginTop: '2rem'
+    }
 });
 
 const Roles = props => {
-  const classes = useStyles();
+    const classes = useStyles();
 
-  useEffect(() => {
-    props.loadRoles();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    useEffect(() => {
+        props.loadRoles();
+        document.title = 'ROLES';
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
-  return (
-    <div className={classes.root}>
-      <h1 className="center">Manage Roles</h1>
-      <CreateRole />
-      <Grid container spacing={3}>
-        {props.roles.map(role => (
-          <Grid item xs={6} sm={3} key={role.id}>
-            <RoleCard role={role} />
-          </Grid>
-        ))}
-      </Grid>
-    </div>
-  );
+    return (
+        <div className={classes.root}>
+            <h1 className="center">Manage Roles</h1>
+            <CreateRole />
+            <Grid container spacing={3}>
+                {props.roles.map(role => (
+                    <Grid item xs={12} sm={6} md={3} key={role.id}>
+                        <RoleCard role={role} />
+                    </Grid>
+                ))}
+            </Grid>
+        </div>
+    );
 };
 
 Roles.propTypes = {
-  loadRoles: PropTypes.func.isRequired,
-  roles: PropTypes.array.isRequired
+    loadRoles: PropTypes.func.isRequired,
+    roles: PropTypes.array.isRequired
 };
 
 const mapStateToProps = state => ({
-  roles: state.admin.roles
+    roles: state.admin.roles
 });
 
 export default connect(mapStateToProps, {
-  loadRoles
+    loadRoles
 })(Roles);

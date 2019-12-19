@@ -61,7 +61,7 @@ const RoleCard = ({ role, deleteRole }) => {
         <Card className={classes.root}>
             <CardContent className={classes.header}>
                 <Typography className="role-title__wrapper">
-                    title: <span className="role-title">{role.title}</span>
+                    {role.title}
                 </Typography>
                 <Typography className="role-id__wrapper">
                     ID: <span className="role-id">{role.id}</span>

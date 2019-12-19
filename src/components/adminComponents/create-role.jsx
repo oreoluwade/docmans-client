@@ -5,12 +5,17 @@ import { connect } from 'react-redux';
 import Swal from 'sweetalert2';
 import { saveRole } from '../../actions';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
     root: {
         display: 'flex',
         marginBottom: '1rem',
         alignItems: 'center',
-        maxWidth: '600px'
+        maxWidth: '600px',
+        [theme.breakpoints.down('xs')]: {
+            flexDirection: 'column',
+            paddingLeft: theme.spacing(2),
+            paddingRight: theme.spacing(2)
+        }
     },
     input: {
         outline: 'none',
@@ -20,12 +25,20 @@ const useStyles = makeStyles({
         borderRadius: '1.2rem',
         padding: '0.4rem',
         minWidth: '50%',
-        marginRight: '2rem'
+        marginRight: '2rem',
+        [theme.breakpoints.down('xs')]: {
+            width: '100%',
+            marginBottom: theme.spacing(2),
+            marginRight: 0
+        }
     },
     button: {
-        width: '10rem'
+        width: '10rem',
+        [theme.breakpoints.down('xs')]: {
+            width: '70%'
+        }
     }
-});
+}));
 
 const CreateRole = ({ saveRole }) => {
     const classes = useStyles();
