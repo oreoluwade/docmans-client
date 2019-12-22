@@ -1,17 +1,15 @@
 import React, { Fragment, useState } from 'react';
-import { fade, makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
-import InputBase from '@material-ui/core/InputBase';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import Button from '@material-ui/core/Button';
 import MenuIcon from '@material-ui/icons/Menu';
-import SearchIcon from '@material-ui/icons/Search';
 import HomeIcon from '@material-ui/icons/Home';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import { logout } from '../../actions';
@@ -28,30 +26,6 @@ const useStyles = makeStyles(theme => ({
         [theme.breakpoints.up('sm')]: {
             display: 'block'
         }
-    },
-    search: {
-        position: 'relative',
-        borderRadius: theme.shape.borderRadius,
-        backgroundColor: fade(theme.palette.common.white, 0.15),
-        '&:hover': {
-            backgroundColor: fade(theme.palette.common.white, 0.25)
-        },
-        marginRight: theme.spacing(2),
-        marginLeft: 0,
-        width: '100%',
-        [theme.breakpoints.up('sm')]: {
-            marginLeft: theme.spacing(3),
-            width: 'auto'
-        }
-    },
-    searchIcon: {
-        width: theme.spacing(7),
-        height: '100%',
-        position: 'absolute',
-        pointerEvents: 'none',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center'
     },
     inputRoot: {
         color: 'inherit'
@@ -75,15 +49,14 @@ const useStyles = makeStyles(theme => ({
         [theme.breakpoints.up('md')]: {
             display: 'none'
         }
+    },
+    mobileLinkMenuItem: {
+        textDecoration: 'none'
     }
 }));
 
 const Header = props => {
-    const {
-        isAuthenticated,
-        isAdmin,
-        location: { pathname }
-    } = props;
+    const { isAuthenticated, isAdmin } = props;
 
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = useState(null);
@@ -91,10 +64,6 @@ const Header = props => {
 
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
-    const handleProfileMenuOpen = event => {
-        setAnchorEl(event.currentTarget);
-    };
 
     const handleMobileMenuClose = () => {
         setMobileMoreAnchorEl(null);
@@ -113,9 +82,6 @@ const Header = props => {
         props.logout();
         props.history.push('/');
     };
-
-    const searchDisplayAllowed =
-        isAuthenticated && ['/dashboard'].includes(pathname);
 
     const menuId = 'primary-search-account-menu';
     const renderMenu = (
@@ -145,10 +111,33 @@ const Header = props => {
             onClose={handleMobileMenuClose}
         >
             <MenuItem>
-                <p>Messages</p>
+                <Link to="/documents" className={classes.mobileLinkMenuItem}>
+                    Documents
+                </Link>
             </MenuItem>
-            <MenuItem onClick={handleProfileMenuOpen}>
-                <p>Profile</p>
+            <MenuItem>
+                <Link to="/profile" className={classes.mobileLinkMenuItem}>
+                    Profile
+                </Link>
+            </MenuItem>
+            {isAdmin && (
+                <MenuItem>
+                    <Link to="/users" className={classes.mobileLinkMenuItem}>
+                        Users
+                    </Link>
+                </MenuItem>
+            )}
+            {isAdmin && (
+                <MenuItem>
+                    <Link to="/roles" className={classes.mobileLinkMenuItem}>
+                        Roles
+                    </Link>
+                </MenuItem>
+            )}
+            <MenuItem>
+                <Link to="/dashboard" className={classes.mobileLinkMenuItem}>
+                    Dashboard
+                </Link>
             </MenuItem>
         </Menu>
     );
@@ -168,21 +157,7 @@ const Header = props => {
                     <Link to="/" className="navbar-link">
                         <HomeIcon />
                     </Link>
-                    {searchDisplayAllowed && (
-                        <div className={classes.search}>
-                            <div className={classes.searchIcon}>
-                                <SearchIcon />
-                            </div>
-                            <InputBase
-                                placeholder="Search…"
-                                classes={{
-                                    root: classes.inputRoot,
-                                    input: classes.inputInput
-                                }}
-                                inputProps={{ 'aria-label': 'search' }}
-                            />
-                        </div>
-                    )}
+
                     <div className={classes.grow} />
                     <div className={classes.sectionDesktop}>
                         {isAuthenticated && (
