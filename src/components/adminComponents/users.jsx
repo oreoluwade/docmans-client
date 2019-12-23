@@ -16,6 +16,9 @@ const useStyles = makeStyles({
         paddingRight: '2rem',
         paddingLeft: '2rem',
         marginTop: '2rem'
+    },
+    gridContainer: {
+        overflow: 'hidden'
     }
 });
 
@@ -30,7 +33,7 @@ const Users = ({ users, retrieveUsers }) => {
     return (
         <div className={classes.root}>
             <h1>Manage Users</h1>
-            <Grid container spacing={2}>
+            <Grid container spacing={2} className={classes.gridContainer}>
                 {users.map(user => (
                     <Grid item xs={12} sm={6} md={4} lg={3} key={user.id}>
                         <UserCard user={user} />
