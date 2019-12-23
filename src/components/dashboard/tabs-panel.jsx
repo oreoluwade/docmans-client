@@ -43,6 +43,9 @@ const useStyles = makeStyles(theme => ({
         flexGrow: 1,
         marginTop: theme.spacing(3),
         backgroundColor: theme.palette.background.paper
+    },
+    tabsBar: {
+        backgroundColor: 'rgb(49, 150, 175)'
     }
 }));
 
@@ -56,7 +59,7 @@ const TabsPanel = ({ privateDocuments, publicDocuments, roleDocuments }) => {
 
     return (
         <div className={classes.root}>
-            <AppBar position="static" className="tab-header">
+            <AppBar position="static" className={classes.tabsBar}>
                 <Tabs
                     value={value}
                     onChange={handleTabChange}

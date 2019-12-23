@@ -12,10 +12,6 @@ import { deleteUser } from '../../actions';
 
 const useStyles = makeStyles(theme => ({
     cardRoot: {
-        minWidth: 275,
-        [theme.breakpoints.down('sm')]: {
-            minWidth: 200
-        },
         backgroundColor: '#CDCDCD',
         maxHeight: '14rem',
         overflow: 'hidden'
