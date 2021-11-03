@@ -40,7 +40,7 @@
     "sequelize-cli": "^5.5.1",
     "serve": "^11.2.0",
     "sweetalert2": "^9.5.3",
-    "validator": "^12.1.0"
+    "validator": "^13.7.0"
   },
   "scripts": {
     "start": "serve -s build",
