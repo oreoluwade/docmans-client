@@ -20,7 +20,7 @@
     "font-awesome": "^4.7.0",
     "froala-editor": "^3.0.6",
     "he": "^1.2.0",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "lodash": "^4.17.4",
     "material-icons": "^0.3.1",
     "node-sass": "^4.13.0",
